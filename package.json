@@ -15,6 +15,7 @@
   "type": "module",
   "dependencies": {
     "@apollo/server": "^4.10.4",
+    "@octokit/graphql": "^8.1.1",
     "graphql": "^16.9.0",
     "pino": "^9.3.1"
   },

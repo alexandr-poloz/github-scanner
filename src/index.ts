@@ -1,21 +1,10 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { pino } from 'pino';
+import { resolvers } from './resolvers';
+import { typeDefs } from './type-defs';
 
 const logger = pino({ name: 'Scanner' });
-
-
-const typeDefs = `
-  type Query {
-    test: String
-  }
-`;
-
-const resolvers = {
-  Query: {
-    test: () => 'test',
-  },
-};
 
 const server = new ApolloServer({
   typeDefs,
