@@ -1,10 +1,18 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { pino } from 'pino';
-import { resolvers } from './resolvers';
-import { typeDefs } from './type-defs';
+import { typeDefs } from './type-defs.js';
+import {listResolver} from './resolvers/list.js';
+import {detailsResolver} from './resolvers/details.js';
 
 const logger = pino({ name: 'Scanner' });
+
+export const resolvers = {
+  Query: {
+    list: listResolver,
+    details: detailsResolver,
+  },
+};
 
 const server = new ApolloServer({
   typeDefs,

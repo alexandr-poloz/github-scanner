@@ -1,11 +1,11 @@
 import { pino } from 'pino';
-import { searchRepositories } from '../github-api';
+import { getRepositoriesList } from '../github-api.js';
 
 const logger = pino({ name: 'ListResolver' });
 
 export interface ListArgs {
   account: string;
-  key: string;
+  token: string;
 }
 
 export interface Repo {
@@ -15,13 +15,23 @@ export interface Repo {
 }
 
 export async function listResolver(_parent: any, args: ListArgs): Promise<Repo[]> {
-  const { account, key } = args;
+  try {
+    const {account, token} = args;
 
-  const nodes = await searchRepositories(account, key);
+    logger.info('Fetching repositories list');
 
-  return nodes.map((node) => ({
-    name: node.name,
-    size: node.diskUsage,
-    owner: node.owner?.login,
-  }));
+    const nodes = await getRepositoriesList(account, token);
+
+    logger.info('Fetched repositories list');
+
+    return nodes.map((node) => ({
+      name: node.name,
+      size: node.size,
+      owner: node.owner,
+    }));
+  } catch (error) {
+    logger.error(error);
+
+    throw error
+  }
 }

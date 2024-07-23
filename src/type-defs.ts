@@ -12,11 +12,11 @@ export const typeDefs = `
     private: Boolean
     files: Int
     yml: String
-    webhooks: String
+    webhooks: [String]
   }
 
   type Query {
-    list(account: String, key: String): [Repo]
-    details(account: String, repo: String, key: String): Details
+    list(account: String, token: String): [Repo]
+    details(account: String, repo: String, token: String): Details
   }
 `;
